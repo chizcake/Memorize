@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    var isFacedUp: Bool = false
+    let viewModel: EmojiMemoryGame
 
     var body: some View {
         HStack {
-            ForEach(0..<4) { _ in
-                CardView(isFacedUp: isFacedUp)
+            ForEach(viewModel.cards) { card in
+                CardView(card: card)
+                    .onTapGesture { viewModel.choose(card) }
             }
         }
         .padding()
@@ -23,14 +24,14 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFacedUp: Bool
+    var card: MemoryGame<String>.Card
 
     var body: some View {
-        if isFacedUp {
+        if card.isFacedUp {
             ZStack {
                 RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
                 RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3)
-                Text("👻")
+                Text(card.content)
             }
         }
         else {
@@ -41,11 +42,11 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(viewModel: EmojiMemoryGame())
             .previewDevice(PreviewDevice(rawValue: "iPhone 12"))
             .previewDisplayName("iPhone 12")
 
-        ContentView(isFacedUp: true)
+        ContentView(viewModel: EmojiMemoryGame())
             .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
             .previewDisplayName("iPhone 8")
             .environment(\.colorScheme, .dark)
