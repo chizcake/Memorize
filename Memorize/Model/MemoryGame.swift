@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct MemoryGame<CardContent> {
-    var cards: Array<Card>
+struct MemoryGame<CardContent: Equatable> {
+    private(set) var cards: Array<Card>
 
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
         cards = Array<Card>()
@@ -19,15 +19,19 @@ struct MemoryGame<CardContent> {
         }
     }
 
-    func choose(_ card: Card) {
+    mutating func choose(_ card: Card) {
         print("Card chosen: \(card)")
+
+        if let chosenIndex: Int = cards.firstIndex(of: card) {
+            cards[chosenIndex].isFaceUp.toggle()
+        }
     }
 }
 
 extension MemoryGame {
-    struct Card: Identifiable {
+    struct Card: Identifiable, Equatable {
         var id: Int
-        var isFacedUp: Bool = true
+        var isFaceUp: Bool = true
         var isMatched: Bool = false
         var content: CardContent
     }

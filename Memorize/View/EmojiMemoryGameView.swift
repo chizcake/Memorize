@@ -1,14 +1,15 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by HENRY YOO on 2021/05/09.
 //
 
 import SwiftUI
+import Combine
 
-struct ContentView: View {
-    let viewModel: EmojiMemoryGame
+struct EmojiMemoryGameView: View {
+    @ObservedObject var viewModel: EmojiMemoryGameViewModel
 
     var body: some View {
         HStack {
@@ -19,34 +20,16 @@ struct ContentView: View {
         }
         .padding()
         .foregroundColor(.orange)
-        .font(.largeTitle)
-    }
-}
-
-struct CardView: View {
-    var card: MemoryGame<String>.Card
-
-    var body: some View {
-        if card.isFacedUp {
-            ZStack {
-                RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-                RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3)
-                Text(card.content)
-            }
-        }
-        else {
-            RoundedRectangle(cornerRadius: 10).fill()
-        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: EmojiMemoryGame())
+        EmojiMemoryGameView(viewModel: EmojiMemoryGameViewModel())
             .previewDevice(PreviewDevice(rawValue: "iPhone 12"))
             .previewDisplayName("iPhone 12")
 
-        ContentView(viewModel: EmojiMemoryGame())
+        EmojiMemoryGameView(viewModel: EmojiMemoryGameViewModel())
             .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
             .previewDisplayName("iPhone 8")
             .environment(\.colorScheme, .dark)
