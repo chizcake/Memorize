@@ -1,3 +1,5 @@
+# Lecture 3 TIL
+
 * model 에 변화가 발생해서 이를 구독 중인 객체들에게 알리고 싶을 때 `@Published` 라는 property wrapper 를 사용한다. 
 * `@Published` properties 를 가진 클래스는 `ObservableObject` protocol 을 구현해야 한다. (`ObservableObject` 는 `AnyObject` 를 구현하고 있기 때문에 클래스만 `ObservableObject` 를 구현할 수 있다.) 
 * `ObservableObject` 를 저장하는 property 앞에 `@ObservedObject` property wrapper 를 사용하면, `ObservableObject` 가 가지고 있는 `@Published` property 에 변화가 생겼을 때 `@ObservedObject` 를 가진 객체에게 알려줄 수 있다.
