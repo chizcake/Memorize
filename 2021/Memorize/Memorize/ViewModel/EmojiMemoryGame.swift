@@ -1,5 +1,5 @@
 //
-//  EmojiMemoryGameViewModel.swift
+//  EmojiMemoryGame.swift
 //  Memorize
 //
 //  Created by Henry Yoo on 2021/05/29.
@@ -7,22 +7,24 @@
 
 import SwiftUI
 
-final class EmojiMemoryGameViewModel: ObservableObject {
-    @Published private var model: MemoryGame<String> = EmojiMemoryGameViewModel.createMemoryGame()
+final class EmojiMemoryGame: ObservableObject {
+    typealias Card = MemoryGame<String>.Card
+
+    @Published private var model = EmojiMemoryGame.createMemoryGame()
     
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         model.cards
     }
     
     // MARK: - Intent(s)
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         model.choose(card)
     }
 }
 
-extension EmojiMemoryGameViewModel {
-    private static let emojis: [String] = [
+extension EmojiMemoryGame {
+    private static let emojis = [
         "🚘", "⛵️", "🚀", "✈️", "🛴",
         "🛵", "🚡", "⛴", "🛰", "🛸",
         "🛩", "🚤", "🚌", "🚲", "🚂",

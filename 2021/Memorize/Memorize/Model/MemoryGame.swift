@@ -10,10 +10,13 @@ import Foundation
 struct MemoryGame<CardContent: Equatable> {
     private(set) var cards: Array<Card>
 
-    private var indexOfTheOneAndOnlyFaceUpCard: Int?
+    private var indexOfTheOneAndOnlyFaceUpCard: Int? {
+        get { cards.indices.filter({ cards[$0].isFaceUp }).oneAndOnly }
+        set { cards.indices.forEach({ cards[$0].isFaceUp = $0 == newValue }) }
+    }
 
     init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
-        cards = Array<Card>()
+        cards = []
 
         // Add numberOfPairsOfCards * 2 cards to `cards` array.
         for pairIndex in 0..<numberOfPairsOfCards {
@@ -36,17 +39,11 @@ struct MemoryGame<CardContent: Equatable> {
                 cards[chosenIndex].isMatched = true
                 cards[potentialMatchIndex].isMatched = true
             }
-            indexOfTheOneAndOnlyFaceUpCard = nil
+            cards[chosenIndex].isFaceUp = true
         }
         else {
-            for index in cards.indices {
-                cards[index].isFaceUp = false
-            }
-
             indexOfTheOneAndOnlyFaceUpCard = chosenIndex
         }
-
-        cards[chosenIndex].isFaceUp.toggle()
     }
 }
 
@@ -55,8 +52,8 @@ struct MemoryGame<CardContent: Equatable> {
 extension MemoryGame {
     struct Card: Equatable, Identifiable {
         let id: Int
-        var isFaceUp: Bool = false
-        var isMatched: Bool = false
-        var content: CardContent
+        var isFaceUp = true
+        var isMatched = false
+        let content: CardContent
     }
 }
